@@ -19,7 +19,7 @@ test:
 		       || (echo Failed to compile, have you run make? \
 		           && exit 1)
 	@./build/testStrUtils                                 \
-		> /dev/null 2>81                              \
+		> /dev/null 2>&1                              \
 		&& echo ${ROOTDIR}/build/testStrUtils: passed \
 		|| echo ${ROOTDIR}/build/testStrUtils: failed
 
