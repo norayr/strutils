@@ -11,9 +11,9 @@ all:
 		$(mkfile_dir_path)/src/strTypes.Mod \
 		$(mkfile_dir_path)/src/strUtils.Mod
 
-tests: all
-		$(VOC) $(mkfile_dir_path)/tst/TestStrUtils.Mod -m
-		$(BUILD)/TestStrutils
+test: all
+		cd $(BUILD) && $(VOC) $(mkfile_dir_path)/test/testStrUtils.Mod -m
+		$(BUILD)/testStrUtils
 
 clean:
 		if [ -d "$(BUILD)" ]; then rm -rf $(BUILD); fi

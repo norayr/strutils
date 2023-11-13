@@ -485,10 +485,23 @@ VAR
   l : LONGINT;
 BEGIN
   i := 0;
+  l := Strings.Length(s);
+  WHILE i < l DO
+    Out.Int(i, 0); Out.Char(" "); Out.Char(s[i]); Out.Ln; INC(i)
+  END
+END dumpChars;
+
+PROCEDURE dumpAllChars*(VAR s : ARRAY OF CHAR);
+VAR
+  i : INTEGER;
+  l : LONGINT;
+BEGIN
+  i := 0;
   l := LEN(s);
   WHILE i < l-1 DO
     Out.Int(i, 0); Out.Char(" "); Out.Char(s[i]); Out.Ln; INC(i)
   END
-END dumpChars;
+END dumpAllChars;
+
 
 END strUtils.

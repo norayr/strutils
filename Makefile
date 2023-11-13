@@ -14,11 +14,11 @@ test:
 		echo Run make, first; \
 		exit 1;               \
 	fi
-	@cd build; voc ${ROOTDIR}/../tst/testStrUtils.Mod -m          \
+	@cd build && voc ${ROOTDIR}/../test/testStrUtils.Mod -m          \
 		       > /dev/null 2>&1                               \
 		       || (echo Failed to compile, have you run make? \
 		           && exit 1)
-	@./build/TestStrutils                                 \
+	@./build/testStrUtils                                 \
 		> /dev/null 2>81                              \
 		&& echo ${ROOTDIR}/build/testStrUtils: passed \
 		|| echo ${ROOTDIR}/build/testStrUtils: failed
