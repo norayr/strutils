@@ -21,12 +21,12 @@ build_deps:
 	#make -f $(mkfile_dir_path)/$(DPD)/strutils/GNUmakefile BUILD=$(BLD)
 
 buildStrUtils:
-	cd $(BLD) && $(VOC) -s $(mkfile_dir_path)/src/strTypes.Mod
-	cd $(BLD) && $(VOC) -s $(mkfile_dir_path)/src/strUtils.Mod
+	cd $(BUILD) && $(VOC) -s $(mkfile_dir_path)/src/strTypes.Mod
+	cd $(BUILD) && $(VOC) -s $(mkfile_dir_path)/src/strUtils.Mod
 
 tests:
-	cd $(BLD) && $(VOC) $(mkfile_dir_path)/test/testStrUtils.Mod -m
+	cd $(BUILD) && $(VOC) $(mkfile_dir_path)/test/testStrUtils.Mod -m
 	build/testStrUtils
 
 clean:
-	if [ -d "$(BLD)" ]; then rm -rf $(BLD); fi
+	if [ -d "$(BUILD)" ]; then rm -rf $(BLD); fi
