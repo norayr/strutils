@@ -375,6 +375,24 @@ BEGIN
   UNTIL (i+j = Strings.Length(src)) OR (src[i+j] <= ' ');
 END getNextWord;
 
+PROCEDURE getNextAlphaNumWord*(VAR src: ARRAY OF CHAR; spos: INTEGER; VAR dst: ARRAY OF CHAR);
+VAR
+  i, j: INTEGER;
+  notAN: BOOLEAN;
+  o: INTEGER;
+BEGIN
+  zeroStr(dst);
+  i := 0;
+  j := spos;
+  notAN := FALSE;
+  REPEAT
+    dst[i] := src[i+j];
+  INC(i);
+  o := ORD(src[i+j]);
+  IF ~ ( ((o >= 48) & (o <=57)) OR ((o >= 65) & (o <= 90)) OR ( (o >= 97) & (o <= 122)  ) ) THEN notAN := TRUE END;
+  UNTIL (i+j = Strings.Length(src))OR notAN OR (src[i+j] <= ' ');
+END getNextAlphaNumWord;
+
 PROCEDURE contains* (VAR line : ARRAY OF CHAR; pattern: ARRAY OF CHAR): BOOLEAN;
 VAR
  found: BOOLEAN;
