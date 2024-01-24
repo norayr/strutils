@@ -24,6 +24,7 @@ build_deps:
 	#make -f $(DPS)/strutils/GNUmakefile BUILD=$(BUILD)
 
 buildStrUtils:
+	mkdir -p $(BUILD)
 	cd $(BUILD) && $(VOC) -s $(mkfile_dir_path)/src/strTypes.Mod
 	cd $(BUILD) && $(VOC) -s $(mkfile_dir_path)/src/strUtils.Mod
 

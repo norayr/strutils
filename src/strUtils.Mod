@@ -368,7 +368,7 @@ VAR
 BEGIN
   zeroStr(dst);
   i := 0;
-  j := spos+1;
+  j := spos;
   REPEAT
     dst[i] := src[i+j];
   INC(i);

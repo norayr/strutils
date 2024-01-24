@@ -61,6 +61,10 @@ BEGIN
     Out.String(pstrs0^[i]^); Out.Ln
   END;
 
+  s0 := "manush hangstatsi";
+  strUtils.getNextWord(s0, 0, s1);
+  Out.String(s1); Out.Ln;
+
 END test;
 
 BEGIN
