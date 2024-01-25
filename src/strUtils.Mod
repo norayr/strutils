@@ -157,12 +157,12 @@ BEGIN
        (*  Out.String("extra='"); Out.String(extra^); Out.Char("'"); Out.Ln; *)
     IF destination = NIL THEN
             Out.String("dest is nil"); Out.Ln;
-      NEW(destination, LEN(extra^));
+      NEW(destination, LEN(extra^)+1);
       COPY(extra^, destination^);
        (*  Out.String("now dest is '"); Out.String(destination^); Out.Char("'"); Out.Ln; *)
     ELSE
        (* Out.String("dest is not nil, it's '");Out.String(destination^);Out.Char("'");Out.Ln; *)
-      NEW(tmp, LEN(extra^) + LEN(destination^));
+      NEW(tmp, LEN(extra^) + LEN(destination^)+1);
       COPY(destination^, tmp^);
            (* Out.String("copied dest to tmp, tmp is '"); Out.String(tmp^); Out.Char("'"); Out.Ln; *)
       Strings.Append(extra^, tmp^);
