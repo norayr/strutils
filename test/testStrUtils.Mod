@@ -74,15 +74,19 @@ BEGIN
   NEW(ps1, 5);
   COPY("aoeu", ps1^);
   strUtils.append(ps1, ps0);
-    Out.String("len of src is "); Out.Int(Strings.Length(ps1^), 0); Out.Ln;
-    Out.String("len of dst is "); Out.Int(Strings.Length(ps0^), 0); Out.Ln;
+    Out.String("length of src is "); Out.Int(Strings.Length(ps1^), 0); Out.Ln;
+    Out.String("len of src is "); Out.Int(LEN(ps1^), 0); Out.Ln;
+    Out.String("length of dst is "); Out.Int(Strings.Length(ps0^), 0); Out.Ln;
+    Out.String("len of dst is "); Out.Int(LEN(ps0^), 0); Out.Ln;
     Out.String("res='"); Out.String(ps0^); Out.Char("'"); Out.Ln;
   NEW(ps0, 7); NEW(ps1, 3);
   COPY("norayr", ps0^);
   COPY(" t", ps1^);
   strUtils.append(ps1, ps0);
-    Out.String("len of src is "); Out.Int(Strings.Length(ps1^), 0); Out.Ln;
-    Out.String("len of dst is "); Out.Int(Strings.Length(ps0^), 0); Out.Ln;
+    Out.String("length of src is "); Out.Int(Strings.Length(ps1^), 0); Out.Ln;
+    Out.String("len of src is "); Out.Int(LEN(ps1^), 0); Out.Ln;
+    Out.String("length of dst is "); Out.Int(Strings.Length(ps0^), 0); Out.Ln;
+    Out.String("len of dst is "); Out.Int(LEN(ps0^), 0); Out.Ln;
    Out.String("res='"); Out.String(ps0^); Out.Char("'"); Out.Ln;
 END test;
 
