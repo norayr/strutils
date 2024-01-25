@@ -66,10 +66,21 @@ BEGIN
   Out.String(s1); Out.Ln;
 
   Out.String("testing strUtils.append"); Out.Ln;
+  ps0 := NIL;
+  ps1 := NIL;
+  strUtils.append(ps1, ps0);
+
+  ps0 := NIL;
+  NEW(ps1, 5);
+  COPY("aoeu", ps1^);
+  strUtils.append(ps1, ps0);
+
+  Out.String("res='"); Out.String(ps0^); Out.Char("'"); Out.Ln;
   NEW(ps0, 7); NEW(ps1, 3);
   COPY("norayr", ps0^);
   COPY(" t", ps1^);
   strUtils.append(ps1, ps0);
+  Out.String("res='"); Out.String(ps0^); Out.Char("'"); Out.Ln;
 END test;
 
 BEGIN
