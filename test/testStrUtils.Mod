@@ -65,6 +65,11 @@ BEGIN
   strUtils.getNextWord(s0, 0, s1);
   Out.String(s1); Out.Ln;
 
+  Out.String("testing strUtils.append"); Out.Ln;
+  NEW(ps0, 7); NEW(ps1, 3);
+  COPY("norayr", ps0^);
+  COPY(" t", ps1^);
+  strUtils.append(ps1, ps0);
 END test;
 
 BEGIN

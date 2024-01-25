@@ -149,6 +149,31 @@ BEGIN
   RETURN(0);
 END Lpos;
 
+PROCEDURE append*(VAR extra, destination: pstring);
+VAR
+  tmp: pstring;
+BEGIN
+  IF extra # NIL THEN
+            Out.String("extra='"); Out.String(extra^); Out.Char("'"); Out.Ln;
+    IF destination = NIL THEN
+            Out.String("dest is nil"); Out.Ln;
+      NEW(destination, LEN(extra^));
+      COPY(extra^, destination^);
+            Out.String("now dest is '"); Out.String(destination^); Out.Char("'"); Out.Ln;
+    ELSE
+            Out.String("dest is not nil, it's '");Out.String(destination^);Out.Char("'");Out.Ln;
+      NEW(tmp, LEN(extra^) + LEN(destination^));
+      COPY(destination^, tmp^);
+            Out.String("copied dest to tmp, tmp is '"); Out.String(tmp^); Out.Char("'"); Out.Ln;
+      Strings.Append(extra^, tmp^);
+            Out.String("after appending tmp is '"); Out.String(tmp^); Out.Char("'"); Out.Ln;
+      NEW(destination, LEN(tmp^));
+      COPY(tmp^, destination^);
+    END;
+            Out.String("now dest is '"); Out.String(destination^); Out.Char("'"); Out.Ln;
+  END
+END append;
+
 PROCEDURE string2pstring*(s: ARRAY OF CHAR; VAR d : pstring);
 BEGIN
   NEW(d, Strings.Length(s)+1);
