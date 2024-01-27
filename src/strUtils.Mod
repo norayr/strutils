@@ -200,13 +200,21 @@ BEGIN
          (*Out.String("now dest is '"); Out.String(destination^); Out.Char("'"); Out.Ln;*)
     ELSE
         Out.String("dest is not nil, its len is"); Out.Int(LEN(destination^), 0); Out.String(" and readAll is "); Out.Int(destinationNum, 0); Out.Ln;
-        Out.String("extra len is"); Out.Int(LEN(destination^), 0); Out.String(" and readThisTime is "); Out.Int(extraNum, 0); Out.Ln;
+        Out.String("extra len is"); Out.Int(LEN(extra^), 0); Out.String(" and readThisTime is "); Out.Int(extraNum, 0); Out.Ln;
       NEW(tmp, extraNum + destinationNum);
       Out.String("tmp len is "); Out.Int(LEN(tmp^), 0); Out.Ln;
       copyBytes(destination^, tmp^, 0, destinationNum);
-            (* Out.String("copied dest to tmp, tmp is '"); Out.String(tmp^); Out.Char("'"); Out.Ln; *)
+          Out.String("tmp^["); Out.Int(destinationNum-1, 0);
+          Out.String("]="); Out.Char(tmp^[destinationNum-1]); Out.Ln;
+          Out.String("tmp^["); Out.Int(destinationNum, 0);
+          Out.String("]="); Out.Char(tmp^[destinationNum]); Out.Ln;
       copyBytes(extra^, tmp^, destinationNum, extraNum);
-            (* Out.String("after appending tmp is '"); Out.String(tmp^); Out.Char("'"); Out.Ln; *)
+          Out.String("tmp^["); Out.Int(destinationNum, 0);
+          Out.String("]="); Out.Char(tmp^[destinationNum]); Out.Ln;
+          Out.String("extra^[0]="); Out.Char(extra^[0]); Out.Ln;
+          Out.String("tmp^["); Out.Int(destinationNum+1, 0);
+          Out.String("]="); Out.Char(tmp^[destinationNum+1]); Out.Ln;
+          Out.String("extra^[1]="); Out.Char(extra^[1]); Out.Ln;
       NEW(destination, LEN(tmp^));
       copyBytes(tmp^, destination^, 0, LEN(tmp^));
     END;
