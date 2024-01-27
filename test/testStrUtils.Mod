@@ -88,6 +88,34 @@ BEGIN
     Out.String("length of dst is "); Out.Int(Strings.Length(ps0^), 0); Out.Ln;
     Out.String("len of dst is "); Out.Int(LEN(ps0^), 0); Out.Ln;
    Out.String("res='"); Out.String(ps0^); Out.Char("'"); Out.Ln;
+
+   Out.String("testing copyBytes"); Out.Ln;
+   NEW(ps0,2); NEW(ps1, 3);
+   ps0^[0] := 'o'; ps0^[1] := 'e';
+   ps1^[0] := 'a'; ps1^[1] := 'b'; ps1^[2] := 'c';
+   strUtils.copyBytes(ps1^, ps0^, 0, 2);
+   Out.String(ps0^); Out.Ln;
+
+   Out.String("testing copyBytes"); Out.Ln;
+   NEW(ps0,2); NEW(ps1, 3);
+   ps0^[0] := 'o'; ps0^[1] := 'e';
+   ps1^[0] := 'a'; ps1^[1] := 'b'; ps1^[2] := 'c';
+   strUtils.copyBytes(ps0^, ps1^, 1, 2);
+   Out.String(ps1^); Out.Ln;
+
+   Out.String("testing strUtils.appendNumChars"); Out.Ln;
+   NEW(ps0,3); ps1 := NIL;
+   ps0^[0] := 'a'; ps0^[1] := 'o'; ps0^[2] := 'e';
+   strUtils.appendNumChars(ps0, 3, ps1, 5);
+   Out.String(ps1^); Out.Ln;
+
+Out.String("testing strUtils.appendNumChars"); Out.Ln;
+   NEW(ps0,3); NEW(ps1, 5);
+   ps0^[0] := 'a'; ps0^[1] := 'o'; ps0^[2] := 'e';
+   ps1^[0] := 'a'; ps1^[1] := 'b'; ps1^[2] := 'c'; ps1^[3]:='d'; ps1^[4]:='f';
+   strUtils.appendNumChars(ps0, 3, ps1, 5);
+   Out.String(ps1^); Out.Ln
+
 END test;
 
 BEGIN

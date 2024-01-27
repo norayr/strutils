@@ -174,6 +174,45 @@ BEGIN
   END
 END append;
 
+PROCEDURE copyBytes*(VAR src, dst: ARRAY OF CHAR; start, quantity: LONGINT);
+VAR
+  i, j : LONGINT;
+BEGIN
+  i := start; j := 0;
+  IF i < (LEN(dst)-1) THEN
+     REPEAT
+       dst[i] := src[j];
+       INC(i); INC(j);
+     UNTIL (i = LEN(dst)) OR (j = LEN(src)) OR (j = quantity);
+  END
+END copyBytes;
+
+PROCEDURE appendNumChars*(VAR extra: pstring; extraNum: LONGINT; VAR destination: pstring; destinationNum: LONGINT);
+VAR
+  tmp: pstring;
+BEGIN
+  IF extra # NIL THEN
+       (*  Out.String("extra='"); Out.String(extra^); Out.Char("'"); Out.Ln; *)
+    IF destination = NIL THEN
+            Out.String("dest is nil"); Out.Ln;
+      NEW(destination, extraNum);
+      copyBytes(extra^, destination^, 0, extraNum);
+         Out.String("now dest is '"); Out.String(destination^); Out.Char("'"); Out.Ln;
+    ELSE
+        Out.String("dest is not nil, it's '");Out.String(destination^);Out.Char("'");Out.Ln;
+      NEW(tmp, extraNum + destinationNum);
+      copyBytes(destination^, tmp^, 0, LEN(destination^));
+            Out.String("copied dest to tmp, tmp is '"); Out.String(tmp^); Out.Char("'"); Out.Ln;
+      copyBytes(extra^, tmp^, LEN(destination^), extraNum);
+             Out.String("after appending tmp is '"); Out.String(tmp^); Out.Char("'"); Out.Ln;
+      NEW(destination, LEN(tmp^));
+      copyBytes(tmp^, destination^, 0, LEN(tmp^));
+    END;
+            Out.String("now dest is '"); Out.String(destination^); Out.Char("'"); Out.Ln;
+  END
+END appendNumChars;
+
+
 PROCEDURE string2pstring*(s: ARRAY OF CHAR; VAR d : pstring);
 BEGIN
   NEW(d, Strings.Length(s)+1);
