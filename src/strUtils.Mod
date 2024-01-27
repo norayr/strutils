@@ -192,23 +192,23 @@ VAR
   tmp: pstring;
 BEGIN
   IF extra # NIL THEN
-       (*  Out.String("extra='"); Out.String(extra^); Out.Char("'"); Out.Ln; *)
+       (*Out.String("extra='"); Out.String(extra^); Out.Char("'"); Out.Ln; *)
     IF destination = NIL THEN
             Out.String("dest is nil"); Out.Ln;
       NEW(destination, extraNum);
       copyBytes(extra^, destination^, 0, extraNum);
-         Out.String("now dest is '"); Out.String(destination^); Out.Char("'"); Out.Ln;
+         (*Out.String("now dest is '"); Out.String(destination^); Out.Char("'"); Out.Ln;*)
     ELSE
-        Out.String("dest is not nil, it's '");Out.String(destination^);Out.Char("'");Out.Ln;
+        (* Out.String("dest is not nil, it's '");Out.String(destination^);Out.Char("'");Out.Ln; *)
       NEW(tmp, extraNum + destinationNum);
-      copyBytes(destination^, tmp^, 0, LEN(destination^));
-            Out.String("copied dest to tmp, tmp is '"); Out.String(tmp^); Out.Char("'"); Out.Ln;
-      copyBytes(extra^, tmp^, LEN(destination^), extraNum);
-             Out.String("after appending tmp is '"); Out.String(tmp^); Out.Char("'"); Out.Ln;
+      copyBytes(destination^, tmp^, 0, destinationNum);
+            (* Out.String("copied dest to tmp, tmp is '"); Out.String(tmp^); Out.Char("'"); Out.Ln; *)
+      copyBytes(extra^, tmp^, destinationNum, extraNum);
+            (* Out.String("after appending tmp is '"); Out.String(tmp^); Out.Char("'"); Out.Ln; *)
       NEW(destination, LEN(tmp^));
       copyBytes(tmp^, destination^, 0, LEN(tmp^));
     END;
-            Out.String("now dest is '"); Out.String(destination^); Out.Char("'"); Out.Ln;
+           (* Out.String("now dest is '"); Out.String(destination^); Out.Char("'"); Out.Ln;*)
   END
 END appendNumChars;
 
