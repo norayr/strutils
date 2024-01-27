@@ -199,8 +199,10 @@ BEGIN
       copyBytes(extra^, destination^, 0, extraNum);
          (*Out.String("now dest is '"); Out.String(destination^); Out.Char("'"); Out.Ln;*)
     ELSE
-        (* Out.String("dest is not nil, it's '");Out.String(destination^);Out.Char("'");Out.Ln; *)
+        Out.String("dest is not nil, its len is"); Out.Int(LEN(destination^), 0); Out.String(" and readAll is "); Out.Int(destinationNum, 0); Out.Ln;
+        Out.String("extra len is"); Out.Int(LEN(destination^), 0); Out.String(" and readThisTime is "); Out.Int(extraNum, 0); Out.Ln;
       NEW(tmp, extraNum + destinationNum);
+      Out.String("tmp len is "); Out.Int(LEN(tmp^), 0); Out.Ln;
       copyBytes(destination^, tmp^, 0, destinationNum);
             (* Out.String("copied dest to tmp, tmp is '"); Out.String(tmp^); Out.Char("'"); Out.Ln; *)
       copyBytes(extra^, tmp^, destinationNum, extraNum);
