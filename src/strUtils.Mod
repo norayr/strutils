@@ -282,6 +282,17 @@ BEGIN
     END
 END ExtractWord;
 
+PROCEDURE dumpStr(s: ARRAY OF CHAR);
+VAR
+  i, j : INTEGER;
+BEGIN
+  i := 0; j := Strings.Length(s);
+  REPEAT
+    Out.Int(i, 0); Out.String("   "); Out.Int(ORD(s[i]), 0); Out. String("   "); Out.Char(s[i]); Out.Ln;
+    INC(i)
+  UNTIL i = j;
+END dumpStr;
+
 PROCEDURE tokenize*(s : ARRAY OF CHAR; ch : CHAR) : pstrings;
 VAR
   pstr  : pstring;
