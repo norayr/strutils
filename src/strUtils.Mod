@@ -282,7 +282,7 @@ BEGIN
     END
 END ExtractWord;
 
-PROCEDURE dumpStr(s: ARRAY OF CHAR);
+PROCEDURE dumpStr*(s: ARRAY OF CHAR);
 VAR
   i, j : INTEGER;
 BEGIN
