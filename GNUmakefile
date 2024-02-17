@@ -31,7 +31,8 @@ get_deps:
 	done
 
 build_deps:
-	@echo "Building dependencies..."
+	@echo "building strutils dependencies:"
+  @echo "using BUILD_PATH: $(BUILD_PATH)"
 	@mkdir -p $(BUILD_PATH)
 	@for dep in $(DEPEND); do \
 		dep_dir="$(call dep_path,$$dep)"; \
@@ -47,7 +48,7 @@ build_this:
 	cd $(BUILD_PATH) && $(VOC) -s $(mkfile_dir_path)/src/strUtils.Mod
 
 tests:
-	cd $(BUILD) && $(VOC) $(mkfile_dir_path)/test/testStrUtils.Mod -m
+	cd $(BUILD_PATH) && $(VOC) $(mkfile_dir_path)/test/testStrUtils.Mod -m
 	build/testStrUtils
 
 clean:
