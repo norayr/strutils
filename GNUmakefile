@@ -32,7 +32,7 @@ get_deps:
 
 build_deps:
 	@echo "building strutils dependencies:"
-  @echo "using BUILD_PATH: $(BUILD_PATH)"
+	@echo "using BUILD_PATH: $(BUILD_PATH)"
 	@mkdir -p $(BUILD_PATH)
 	@for dep in $(DEPEND); do \
 		dep_dir="$(call dep_path,$$dep)"; \
