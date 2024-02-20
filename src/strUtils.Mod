@@ -132,7 +132,7 @@ BEGIN
   IF s[l] = ch THEN RETURN(l) END;
   REPEAT
     DEC(l);
-  UNTIL s[l] = ch;
+  UNTIL (s[l] = ch) OR (l = 0);
   RETURN(l);
 END Rpos;
 
