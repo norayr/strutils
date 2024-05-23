@@ -245,7 +245,7 @@ BEGIN
   RETURN pstrs
 END string2pstrings;
 
-PROCEDURE ExtractWord* (n : INTEGER; s : string; ch : CHAR) : pstring;
+PROCEDURE ExtractWord* (n : INTEGER; s : ARRAY OF CHAR; ch : CHAR) : pstring;
 VAR
   i, j, k, l : INTEGER;
   str : string;
