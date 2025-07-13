@@ -9,26 +9,24 @@ CONST
       strings* = S.strings;
       pstring* = S.pstring;
       pstrings*= S.pstrings;
-(* from the oo2c Strings module, implements string comparison, which should be implemented in a library level in case of Oberon-1 *)
+
+(** from the oo2c Strings module, implements string comparison, which should be implemented in a library level in case of Oberon-1 *)
 TYPE  CompareResults* = SHORTINT;
   (**Result type of @oproc{Compare}.  *)
 
 CONST
+  (**Result of @oproc{Compare} if the first argument is lexically less than the second one.  *)
   less* = -1;
-  (**Result of @oproc{Compare} if the first argument is lexically less
-     than the second one.  *)
+  (**Result of @oproc{Compare} if the first argument is equal to the second one.  *)
   equal* = 0;
-  (**Result of @oproc{Compare} if the first argument is equal to the second
-     one.  *)
+  (**Result of @oproc{Compare} if the first argument is lexically greater than the second one.  *)
   greater* = 1;
-  (**Result of @oproc{Compare} if the first argument is lexically greater
-     than the second one.  *)
 
-(* this function copied from ooc source and may be considered a duplicate. *)
- PROCEDURE Compare* (stringVal1, stringVal2: ARRAY OF CHAR): CompareResults;
-(**Returns @oconst{less}, @oconst{equal}, or @oconst{greater}, according as
+(** this function copied from ooc source and may be considered a duplicate.$
+   Returns @oconst{less}, @oconst{equal}, or @oconst{greater}, according as
    @oparam{stringVal1} is lexically less than, equal to, or greater than
    @oparam{stringVal2}.  Note that Oberon-2 and Oberon-07 already contains predefined comparison operators on strings.  *)
+ PROCEDURE Compare* (stringVal1, stringVal2: ARRAY OF CHAR): CompareResults;
   VAR
     i: INTEGER;
   BEGIN
@@ -45,11 +43,11 @@ CONST
     END
   END Compare;
 
-(* this function copied from ooc source and may be considered a duplicate. *)
-PROCEDURE Assign* (source: ARRAY OF CHAR; VAR destination: ARRAY OF CHAR);
 (**Copies @oparam{source} to @oparam{destination}.  Equivalent to the
    predefined procedure @code{COPY}.  Unlike @code{COPY}, this procedure can be
    assigned to a procedure variable.  *)
+
+PROCEDURE Assign* (source: ARRAY OF CHAR; VAR destination: ARRAY OF CHAR);
   VAR
     i: INTEGER;
   BEGIN
@@ -92,6 +90,8 @@ UNTIL s[l] # ch;
 
 END RemoveRightChars;
 
+(** Returns the number of substrings (words) in s separated by character ch. *)
+
 PROCEDURE WordCount* (s : ARRAY OF CHAR; ch : CHAR) : INTEGER;
 VAR
   k,l : INTEGER;
@@ -113,6 +113,8 @@ BEGIN
   RETURN(k);
 END WordCount;
 
+(** Counts and returns the number of times character ch appears in string s. *)
+
 PROCEDURE NumberOfChar* (s : ARRAY OF CHAR; ch : CHAR) : LONGINT;
 VAR
   n, i : LONGINT;
@@ -123,6 +125,8 @@ BEGIN
   END;
   RETURN(n);
 END NumberOfChar;
+
+(** Returns the rightmost index of character ch in string s; if not found, returns 0. *)
 
 PROCEDURE Rpos* ( s : ARRAY OF CHAR ; ch : CHAR) : INTEGER;
 VAR
@@ -136,6 +140,8 @@ BEGIN
   RETURN(l);
 END Rpos;
 
+(** Returns the leftmost index of character ch in string s; if not found, returns 0. *)
+
 PROCEDURE Lpos* ( s : ARRAY OF CHAR ; ch : CHAR) : INTEGER;
 VAR
   l : INTEGER;
@@ -148,6 +154,8 @@ BEGIN
   UNTIL l = Strings.Length(s);
   RETURN(0);
 END Lpos;
+
+(** Appends extra to destination, allocating or resizing destination as needed. *)
 
 PROCEDURE append*(VAR extra, destination: pstring);
 VAR
@@ -174,6 +182,8 @@ BEGIN
   END
 END append;
 
+(** Copies up to quantity characters from src into dst, starting at index start. *)
+
 PROCEDURE copyBytes*(VAR src, dst: ARRAY OF CHAR; start, quantity: LONGINT);
 VAR
   i, j : LONGINT;
@@ -186,6 +196,8 @@ BEGIN
      UNTIL (i = LEN(dst)) OR (j = LEN(src)) OR (j = quantity);
   END
 END copyBytes;
+
+(** Appends extraNum characters from extra to destinationNum characters of destination, reallocating destination. *)
 
 PROCEDURE appendNumChars*(VAR extra: pstring; extraNum: LONGINT; VAR destination: pstring; destinationNum: LONGINT);
 VAR
@@ -205,12 +217,15 @@ BEGIN
   END
 END appendNumChars;
 
+(** Allocates and assigns the contents of string s to the pstring d. *)
 
 PROCEDURE string2pstring*(s: ARRAY OF CHAR; VAR d : pstring);
 BEGIN
   NEW(d, Strings.Length(s)+1);
   Assign (s, d^);
 END string2pstring;
+
+(** Converts a CHAR array into a dynamic array of pstrings, one per line. *)
 
 PROCEDURE string2pstrings*(VAR text: ARRAY OF CHAR): pstrings;
 VAR
@@ -244,6 +259,8 @@ BEGIN
   UNTIL (lineNum = j) OR (number = i);
   RETURN pstrs
 END string2pstrings;
+
+(** Returns the n-th substring from s, split by separator ch, as a pstring. *)
 
 PROCEDURE ExtractWord* (n : INTEGER; s : ARRAY OF CHAR; ch : CHAR) : pstring;
 VAR
@@ -282,6 +299,8 @@ BEGIN
     END
 END ExtractWord;
 
+(** Outputs a detailed dump of string s: index, ordinal value, and character. *)
+
 PROCEDURE dumpStr*(s: ARRAY OF CHAR);
 VAR
   i, j : INTEGER;
@@ -292,6 +311,8 @@ BEGIN
     INC(i)
   UNTIL i = j;
 END dumpStr;
+
+(** Returns an array of pstrings by splitting s on separator ch. *)
 
 PROCEDURE tokenize*(s : ARRAY OF CHAR; ch : CHAR) : pstrings;
 VAR
@@ -321,7 +342,8 @@ BEGIN
   RETURN pstrs
 END tokenize;
 
-(* copies all array, even after 0X, but puts 0X in the end *)
+(** Copies up to LEN(dst)-1 chars from src to dst, including data past 0X, and null-terminates dst. *)
+
 
 PROCEDURE copyAll* (src : ARRAY OF CHAR ; VAR dst : ARRAY OF CHAR);
 VAR i, k : LONGINT;
@@ -346,6 +368,8 @@ BEGIN
   UNTIL j = i;
 END zeroStr;
 
+(** Appends LF and CR characters to str and updates the null terminator. *)
+
 PROCEDURE appendLFCR*(VAR str: ARRAY OF CHAR);
 VAR
   l : INTEGER;
@@ -355,6 +379,8 @@ BEGIN
         str[l+1] := CR;
         str[l+2] := 0X;
 END appendLFCR;
+
+(** Finds first occurrence of ch in line; returns position in pos and found flag in b. *)
 
 PROCEDURE findChar*(ch: CHAR; VAR line: ARRAY OF CHAR; VAR b: BOOLEAN; VAR pos: INTEGER);
 VAR
@@ -368,7 +394,8 @@ BEGIN
   UNTIL b OR (i = LEN(line) - 1);
 END findChar;
 
-(* cuts line, takes the part till the eol *)
+(** Extracts the line from src up to the first LF character and stores it in dst. *)
+
 PROCEDURE cutLine*(VAR src, dst: ARRAY OF CHAR);
 VAR
  found: BOOLEAN;
@@ -388,7 +415,8 @@ BEGIN
   END;
 END cutLine;
 
-(* put 0X after eol in the string *)
+(** Terminates str immediately after the first LF by inserting 0X, preserving the LF itself. *)
+
 PROCEDURE terminateLine*(VAR str: ARRAY OF CHAR);
 VAR
  found: BOOLEAN;
@@ -401,6 +429,7 @@ BEGIN
     END
   END;
 END terminateLine;
+(** Extracts characters from src after spos into dst, stopping at the first control character (ASCII < ' '). *)
 
 PROCEDURE getTillEOL*(VAR src: ARRAY OF CHAR; spos: INTEGER; VAR dst: ARRAY OF CHAR); (* actually get till any character < ' ' *)
 VAR
@@ -429,7 +458,8 @@ BEGIN
   UNTIL (i+j >= l) OR (src[i+j] < ' ') OR (i+j >= LEN(src)) OR (j >= LEN(dst));
 END getTillEOL;
 
-(* get next word starting from spos till the ' ' *)
+(** Extracts word from src starting at spos into dst, ending at space or control char. *)
+
 PROCEDURE getNextWord*(VAR src: ARRAY OF CHAR; spos: INTEGER; VAR dst: ARRAY OF CHAR);
 VAR
   i, j: INTEGER;
@@ -442,6 +472,9 @@ BEGIN
   INC(i);
   UNTIL (i+j = Strings.Length(src)) OR (src[i+j] <= ' ');
 END getNextWord;
+
+
+(** Copies characters from src to dst starting at spos, stopping at first non-alphanumeric or control character. *)
 
 PROCEDURE getNextAlphaNumWord*(VAR src: ARRAY OF CHAR; spos: INTEGER; VAR dst: ARRAY OF CHAR);
 VAR
@@ -460,6 +493,8 @@ BEGIN
   IF ~ ( ((o >= 48) & (o <=57)) OR ((o >= 65) & (o <= 90)) OR ( (o >= 97) & (o <= 122)  ) ) THEN notAN := TRUE END;
   UNTIL (i+j = Strings.Length(src))OR notAN OR (src[i+j] <= ' ');
 END getNextAlphaNumWord;
+
+(** Scans line manually to check if pattern occurs using substring comparison. *)
 
 PROCEDURE contains* (VAR line : ARRAY OF CHAR; pattern: ARRAY OF CHAR): BOOLEAN;
 VAR
@@ -481,6 +516,8 @@ UNTIL found OR (i = LEN(line) - patternLength - 1);
   IF found THEN RETURN TRUE ELSE RETURN FALSE END
 END contains;
 
+(** Uses Strings.FindNext to check if pat is found in line starting at position 0. *)
+
 PROCEDURE contains1*(VAR line: ARRAY OF CHAR; pat : ARRAY OF CHAR): BOOLEAN;
 VAR
  found: BOOLEAN;
@@ -489,6 +526,7 @@ BEGIN
   Strings.FindNext(pat, line, 0, found, pos);
   IF found THEN RETURN TRUE ELSE RETURN FALSE END
 END contains1;
+
 (*
 PROCEDURE dumpText*(VAR text: ARRAY OF CHAR);
 VAR
@@ -528,9 +566,9 @@ END dumpTextTill0;
      END
    END Reverse0;
 
-   PROCEDURE IntToStr*(int: LONGINT; VAR str: ARRAY OF CHAR);
-   (* Converts the value of `int' to string form and copies the possibly truncated
+   (** Converts the value of `int' to string form and copies the possibly truncated
    result to `str'. *)
+   PROCEDURE IntToStr*(int: LONGINT; VAR str: ARRAY OF CHAR);
    VAR
      b : ARRAY 21 OF CHAR;
      s, e: INTEGER;
@@ -565,6 +603,7 @@ END dumpTextTill0;
        COPY(b, str) (* truncate output if necessary *)
    END IntToStr;
 
+(** Prints each character in s with its index, up to the first 0X terminator. *)
 PROCEDURE dumpChars*(VAR s : ARRAY OF CHAR);
 VAR
   i : INTEGER;
@@ -577,6 +616,7 @@ BEGIN
   END
 END dumpChars;
 
+(** Prints all characters in s with their index, ignoring the 0X terminator. *)
 PROCEDURE dumpAllChars*(VAR s : ARRAY OF CHAR);
 VAR
   i : INTEGER;
