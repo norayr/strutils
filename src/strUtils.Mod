@@ -1,5 +1,5 @@
 MODULE strUtils;
-IMPORT Ascii := oocAscii, S := strTypes, Strings := ooc2Strings, Out;
+IMPORT S := strTypes, Strings := ooc2Strings, Out;  (* polpo: Strings := strings, Out := out *)
 
 CONST
   CR* = 0DX;
@@ -63,18 +63,17 @@ PROCEDURE Pos* (substr : CHAR ; s : ARRAY OF CHAR; n : INTEGER) : INTEGER;
 VAR
   i : INTEGER;
 BEGIN
-  FOR i := n TO Strings.Length(s) DO
+  i := n;
+  WHILE i <= Strings.Length(s) DO
     IF s[i] = substr THEN RETURN(i) END;
+    INC(i)
   END;
   RETURN(0);
 END Pos;
 
 PROCEDURE RemoveLeftChars* (VAR s : ARRAY OF CHAR; ch : CHAR);
 BEGIN
-REPEAT
-IF s[0] = ch THEN Strings.Delete (s, 0, 1) END;
-
-UNTIL s[0] # ch;
+WHILE (s[0] # 0X) & (s[0] = ch) DO Strings.Delete (s, 0, 1) END
 
 END RemoveLeftChars;
 
@@ -82,11 +81,7 @@ PROCEDURE RemoveRightChars* (VAR s : ARRAY OF CHAR; ch : CHAR);
 VAR l : INTEGER;
 BEGIN
 l := Strings.Length(s);
-REPEAT
-
-IF s[l] = ch THEN Strings.Delete (s, l, 1) END;
-DEC(l);
-UNTIL s[l] # ch;
+WHILE (l > 0) & (s[l-1] = ch) DO DEC(l); s[l] := 0X END
 
 END RemoveRightChars;
 
@@ -120,8 +115,10 @@ VAR
   n, i : LONGINT;
 BEGIN
   n := 0;
-  FOR i := 0 TO Strings.Length(s) DO
+  i := 0;
+  WHILE i <= Strings.Length(s) DO
     IF s[i] = ch THEN INC(n) END;
+    INC(i)
   END;
   RETURN(n);
 END NumberOfChar;
@@ -228,35 +225,29 @@ END string2pstring;
 (** Converts a CHAR array into a dynamic array of pstrings, one per line. *)
 
 PROCEDURE string2pstrings*(VAR text: ARRAY OF CHAR): pstrings;
+(* the lines end with LF, CR or CR LF; empty lines are left out; the text ends with 0X or the array *)
 VAR
-  i, j, lineNum, start, number: INTEGER;
+  i, k, n, start, lineNum: LONGINT;
   pstrs: pstrings;
   pstr:  pstring;
 BEGIN
-  i := 0;
-  j := 0;
-  REPEAT
-    IF text[i] = 0AX THEN INC(j) END;
-    INC(i);
-  UNTIL (i = LEN(text)) OR (text[i] = 0X); (* now in j we have number of lines *)
-  (* and in i we have position of the end of the text *)
-  NEW(pstrs, j); (*creating ptsrs array with that count *)
-  lineNum := 0;         (* current line number, will inc until j*)
-  number := 0;    (* character index in the text *)
-  REPEAT            (* now we have to fill it line by line *)
-    WHILE (text[number] = 0AX) OR (text[number] = 0DX) DO INC(number) END;
-    start := number;
-
-    REPEAT
-      INC(number)
-    UNTIL (number = LEN(text) - 1) OR (text[number] = 0AX)
-         OR (text[number] = 0DX) OR (text[number] = 0X); (* reached eol *)
-
-    NEW(pstr, number - start + 1);
-    Strings.Extract(text, start, number - start, pstr^);
+  n := 0; i := 0;
+  WHILE (i < LEN(text)) & (text[i] # 0X) DO  (* count the lines *)
+    IF (text[i] # 0AX) & (text[i] # 0DX) & ((i = 0) OR (text[i-1] = 0AX) OR (text[i-1] = 0DX)) THEN INC(n) END;
+    INC(i)
+  END;
+  NEW(pstrs, n);
+  lineNum := 0; i := 0;
+  WHILE lineNum < n DO
+    WHILE (text[i] = 0AX) OR (text[i] = 0DX) DO INC(i) END;
+    start := i;
+    WHILE (i < LEN(text)) & (text[i] # 0X) & (text[i] # 0AX) & (text[i] # 0DX) DO INC(i) END;
+    NEW(pstr, i - start + 1);
+    k := 0; WHILE k < i - start DO pstr[k] := text[start + k]; INC(k) END;
+    pstr[k] := 0X;
     pstrs^[lineNum] := pstr;
-    INC(lineNum);
-  UNTIL (lineNum = j) OR (number = i);
+    INC(lineNum)
+  END;
   RETURN pstrs
 END string2pstrings;
 
@@ -349,8 +340,10 @@ PROCEDURE copyAll* (src : ARRAY OF CHAR ; VAR dst : ARRAY OF CHAR);
 VAR i, k : LONGINT;
 BEGIN
   IF LEN (src) < LEN(dst) THEN k := LEN(src) ELSE k := LEN(dst)  END;
-  FOR i := 0 TO k-2 DO
+  i := 0;
+  WHILE i <= k-2 DO
     dst[i] := src[i];
+    INC(i)
   END;
   dst[k-1] := 0X;
 END copyAll;
