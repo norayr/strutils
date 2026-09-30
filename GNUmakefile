@@ -25,8 +25,8 @@ build_deps:
 
 buildStrUtils:
 	mkdir -p $(BUILD)
-	cd $(BUILD) && $(VOC) -s $(mkfile_dir_path)/src/strTypes.Mod
-	cd $(BUILD) && $(VOC) -s $(mkfile_dir_path)/src/strUtils.Mod
+	cd $(BUILD) && $(VOC) -sF $(mkfile_dir_path)/src/strTypes.Mod
+	cd $(BUILD) && $(VOC) -sF $(mkfile_dir_path)/src/strUtils.Mod
 
 tests:
 	cd $(BUILD) && $(VOC) $(mkfile_dir_path)/test/testStrUtils.Mod -m
