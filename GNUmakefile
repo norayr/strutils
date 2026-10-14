@@ -32,5 +32,10 @@ tests:
 	cd $(BUILD) && $(VOC) $(mkfile_dir_path)/test/testStrUtils.Mod -m
 	build/testStrUtils
 
+.PHONY: test-bounds
+test-bounds: buildStrUtils
+	cd $(BUILD) && $(VOC) -sFm $(mkfile_dir_path)/test/TestStrBounds.Mod
+	$(BUILD)/TestStrBounds
+
 clean:
 	if [ -d "$(BUILD)" ]; then rm -rf $(BLD); fi
